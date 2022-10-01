@@ -29,7 +29,22 @@ There are three different sizes of key - 128, 192 or 256 bits. Key size specifie
     2. `ShiftRows`
     3. `AddRoundKey`
 
+In step 3 there are $n-1$ rounds where $n$ is number specified by key size as above. The $n$-th round is the final round described in step 4.
+
 ## `KeyExpansion`
+
+Key expansion follows certains schedule.
+Every $i$-th round has its round constant $rcon_i$:
+
+$$rcon_i = \begin{bmatrix} rc_i & 00_{16} & 00_{16} & 00_{16} \end{bmatrix})$$
+
+where $rc_i$ is an 8-bit value defined as:
+
+$$rc_i = \begin{cases}
+1                                   & \quad \text{if } i=1 \\
+2 \cdot rc_{i-1}                    & \quad \text{if } i>1 \text{ and } rc_{i-1}<80_{16} \\
+(2 \cdot rc_{i-1}) \oplus 11B_{16}  & \quad \text{if } i>1 \text{ and } rc_{i-1} \geq 80_{16} 
+\end{cases}$$
 
 ## `AddRounKey`
 
