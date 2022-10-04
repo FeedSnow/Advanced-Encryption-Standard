@@ -1,4 +1,4 @@
-# Advanced Encription Standard
+# Advanced Encryption Standard
 
 **AES**, also known as **Rijndael**, is a block cipher based on substitution-permutation network. It has specified size of each block - 128 bits. Algorithm operates on $4\times4$ arrays called *state*. They are made of 16 bytes $b_0, b_1, ..., b_{15}$ ordered in following way:
 
