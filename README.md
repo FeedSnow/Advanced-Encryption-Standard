@@ -50,7 +50,7 @@ $$rc_i = \begin{cases}
 
 where $\oplus$ is the bitwise XOR.
 
-Since there may be up to 10 round constants (explained below), the table below presents values for $rc_i$ in hexadecimal:
+Since there may be up to 10 round constants, the table below presents values for $rc_i$ in hexadecimal:
 <table>
     <tr align="right">
         <th>$i$</th>
@@ -118,7 +118,14 @@ W_{i-N} \oplus W_{i-1} & \quad \text{otherwise.}
 
 ## `AddRounKey`
 
+That step consists of combining each byte of the state with appropriate byte of the round key using bitwise XOR. 
+I.e. when we have the state array $a_0, a_1, ..., a_{15}$ and the round key array $k_0, k_1, ..., k_{15}$ we get result array $b_0, b_1, ..., b_{15}$ in following way:
+
+$$\forall i \in \\{ 0, 1, ..., 15 \\} \quad b_i = a_i \oplus k_i$$
+
 ## `SubBytes`
+
+In that step each byte of the state is replaced with a *SubByte* using an 8-bit substitution box. The S-box is chosed to perform conditions $\mathrm{S}(a_{i,j}) \neq a_{i,j}$ and $\mathrm{S}(a_{i,j}) \oplus a_{i,j} \neq FF_{16}$. 
 
 ## `ShiftRows`
 
