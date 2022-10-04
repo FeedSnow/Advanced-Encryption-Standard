@@ -118,15 +118,60 @@ W_{i-N} \oplus W_{i-1} & \quad \text{otherwise.}
 
 ## `AddRounKey`
 
-That step consists of combining each byte of the state with appropriate byte of the round key using bitwise XOR. 
-I.e. when we have the state array $a_0, a_1, ..., a_{15}$ and the round key array $k_0, k_1, ..., k_{15}$ we get result array $b_0, b_1, ..., b_{15}$ in following way:
+That step consists of combining each byte of the state with appropriate byte of the round key using bitwise XOR. I.e. when we have the state array $A$ and the round key array $K$ we get result array $B$ in following way:
 
-$$\forall i \in \\{ 0, 1, ..., 15 \\} \quad b_i = a_i \oplus k_i$$
+$$\forall i, j \in \\{0, 1, 2, 3\\} \quad b_{i, j} = a_{i, j} \oplus k_{i, j}$$
 
 ## `SubBytes`
 
-In that step each byte of the state is replaced with a *SubByte* using an 8-bit substitution box. The S-box is chosed to perform conditions $\mathrm{S}(a_{i,j}) \neq a_{i,j}$ and $\mathrm{S}(a_{i,j}) \oplus a_{i,j} \neq FF_{16}$. 
+In that step, each byte of the state is replaced with a *SubByte* using an 8-bit substitution box. The S-box is chosen to perform conditions $\mathrm{S}(a_{i,j}) \neq a_{i,j}$ and $\mathrm{S}(a_{i,j}) \oplus a_{i,j} \neq FF_{16}$. 
+
+$$
+\forall i, j \in \\{0, 1, 2, 3\\} \quad b_{i, j} = \mathrm{S}(a_{i, j})
+$$
 
 ## `ShiftRows`
 
+The *ShiftRows* step consists of left circular shifting rows of the state for ascending amount of times from 0 to 3.
+
+$$
+\begin{bmatrix}
+a_{0, 0} & a_{0, 1} & a_{0, 2} & a_{0, 3} \\
+a_{1, 0} & a_{1, 1} & a_{1, 2} & a_{1, 3} \\
+a_{2, 0} & a_{2, 1} & a_{2, 2} & a_{2, 3} \\
+a_{3, 0} & a_{3, 1} & a_{3, 2} & a_{3, 3} 
+\end{bmatrix}
+\xrightarrow{\text{ShiftRows}}
+\begin{bmatrix}
+a_{0, 0} & a_{0, 1} & a_{0, 2} & a_{0, 3} \\
+a_{1, 1} & a_{1, 2} & a_{1, 3} & a_{1, 0} \\
+a_{2, 2} & a_{2, 3} & a_{2, 0} & a_{2, 1} \\
+a_{3, 3} & a_{3, 0} & a_{3, 1} & a_{3, 2}
+\end{bmatrix}
+$$
+
 ## `MixColumns`
+
+In that step, the four bytes of each column of the state are combined using an invertible linear transformation. During this operation, each column is tranformed using a fixed matrix.
+
+$$
+
+$$
+
+
+//Śmieci
+Then by combining state array $A$ with subkey array $K$ we get array $B$:
+$$
+\begin{bmatrix}
+a_{0, 0} \oplus k_{0, 0} & a_{0,1} \oplus k_{0,1} & a_{0,2} \oplus k_{0,2} & a_{0,3} \oplus k_{0,3} \\
+a_{1, 0} \oplus k_{1, 0} & a_{1,1} \oplus k_{1,1} & a_{1,2} \oplus k_{1,2} & a_{1,3} \oplus k_{1,3} \\
+a_{2, 0} \oplus k_{2, 0} & a_{2,1} \oplus k_{2,1} & a_{2,2} \oplus k_{2,2} & a_{2,3} \oplus k_{2,3} \\
+a_{3, 0} \oplus k_{3, 0} & a_{3,1} \oplus k_{3,1} & a_{3,2} \oplus k_{3,2} & a_{3,3} \oplus k_{3,3} 
+\end{bmatrix}=
+\begin{bmatrix}
+b_{0,0} & b_{0,1} & b_{0,2} & b_{0,3} \\
+b_{1,0} & b_{1,1} & b_{1,2} & b_{1,3} \\
+b_{2,0} & b_{2,1} & b_{2,2} & b_{2,3} \\
+b_{3,0} & b_{3,1} & b_{3,2} & b_{3,3} 
+\end{bmatrix}
+$$
