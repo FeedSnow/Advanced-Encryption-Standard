@@ -155,23 +155,40 @@ $$
 In that step, the four bytes of each column of the state are combined using an invertible linear transformation. During this operation, each column is tranformed using a fixed matrix.
 
 $$
-
-$$
-
-
-//Śmieci
-Then by combining state array $A$ with subkey array $K$ we get array $B$:
-$$
 \begin{bmatrix}
-a_{0, 0} \oplus k_{0, 0} & a_{0,1} \oplus k_{0,1} & a_{0,2} \oplus k_{0,2} & a_{0,3} \oplus k_{0,3} \\
-a_{1, 0} \oplus k_{1, 0} & a_{1,1} \oplus k_{1,1} & a_{1,2} \oplus k_{1,2} & a_{1,3} \oplus k_{1,3} \\
-a_{2, 0} \oplus k_{2, 0} & a_{2,1} \oplus k_{2,1} & a_{2,2} \oplus k_{2,2} & a_{2,3} \oplus k_{2,3} \\
-a_{3, 0} \oplus k_{3, 0} & a_{3,1} \oplus k_{3,1} & a_{3,2} \oplus k_{3,2} & a_{3,3} \oplus k_{3,3} 
+b_{0, j} \\
+b_{1, j} \\
+b_{2, j} \\
+b_{3, j}
 \end{bmatrix}=
 \begin{bmatrix}
-b_{0,0} & b_{0,1} & b_{0,2} & b_{0,3} \\
-b_{1,0} & b_{1,1} & b_{1,2} & b_{1,3} \\
-b_{2,0} & b_{2,1} & b_{2,2} & b_{2,3} \\
-b_{3,0} & b_{3,1} & b_{3,2} & b_{3,3} 
+2 & 3 & 1 & 1 \\
+1 & 2 & 3 & 1 \\
+1 & 1 & 2 & 3 \\
+3 & 1 & 1 & 2
+\end{bmatrix}
+\begin{bmatrix}
+a_{0, j} \\
+a_{1, j} \\
+a_{2, j} \\
+a_{3, j}
+\end{bmatrix}
+\quad 0 \leq j \leq 3
+$$
+
+## Decryption
+
+To decipher the message one has to perform reversed operations for all the above steps in an inversed order, i.e.:
+- For *AddRoundKey* just add a round key
+- For *SubBytes* replace subbyte with appropriate base byte (from the lookup table)
+- For *ShiftRows* shift circularly right rows for proper amount of times
+- For *MixColumns* multiply following matrix with column
+
+$$
+\begin{bmatrix}
+14 & 11 & 13 & 9 \\
+9 & 14 & 11 & 13 \\
+13 & 9 & 14 & 11 \\
+11 & 13 & 9 & 14
 \end{bmatrix}
 $$
